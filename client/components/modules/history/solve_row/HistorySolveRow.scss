@@ -3,39 +3,27 @@
 .#{$namespace}-history-solve-row {
 	width: 100%;
 	display: flex;
-	flex-direction: row;
 	height: 36px;
 	padding-right: 5px;
 	box-sizing: border-box;
-	justify-content: space-between;
 	align-items: center;
+	gap: 0.5rem;
+
+	&:hover {
+		background-color: rgb(var(--background-color));
+		cursor: pointer;
+	}
 
 	> div {
 		color: rgb(var(--text-color));
 		font-size: 1rem;
 	}
 
-	> div:first-of-type {
-		min-width: 40px;
-		padding-bottom: 3px;
-		padding-right: 5px;
-	}
-
-	> div:nth-of-type(2) {
-		width: 150px;
-	}
-
-	> div:nth-of-type(3) {
-		justify-content: flex-end;
-		text-align: right;
-		width: calc(100% - 190px);
-	}
-
 	&__actions {
 		display: flex;
-		flex-direction: row;
-		align-items: center;
 		padding-right: 5px;
+		flex: 1;
+		justify-content: flex-end;
 
 		> * {
 			margin-left: 10px;
@@ -44,6 +32,7 @@
 
 	&__index {
 		opacity: 0.6;
+		padding-right: 0.2rem;
 	}
 
 	&__action {
@@ -63,22 +52,22 @@
 	&__time {
 		color: rgb(var(--secondary-color)) !important;
 		font-weight: 600;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		width: 100%;
 		padding-top: 0;
+		justify-content: flex-start;
+		flex-shrink: 0;
 
 		span {
 			font-size: 1rem;
 			padding-top: 3px;
-			border-bottom: solid 2px transparent;
 			color: inherit;
 		}
 
-		&:hover {
-			span {
-				border-bottom: solid 2px !important;
+		&__average {
+			font-size: 0.6rem;
+			font-style: italic;
+
+			small {
+				margin-right: 0.2rem;
 			}
 		}
 
@@ -90,7 +79,7 @@
 			color: rgb(var(--error-color)) !important;
 		}
 
-		> i {
+		i {
 			color: rgb(var(--text-color));
 			opacity: 0.6;
 			font-size: 0.9rem;

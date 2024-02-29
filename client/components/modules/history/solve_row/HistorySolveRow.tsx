@@ -47,6 +47,7 @@ export default function HistorySolveRow(props: Props) {
     const plusTwo = solve.plus_two;
     const id = solve.id;
     const isSmartCube = solve.is_smart_cube;
+    const pb = false;
 
     const time = getTimeString(solveTime);
     const ao5 = getTimeString(props.ao5);
@@ -92,17 +93,18 @@ export default function HistorySolveRow(props: Props) {
     }
 
     return (
-        <div className={b()} key={id}>
+        <div className={b()} key={id} onClick={openSolve}>
             <div className={b('index')}>{(index + 1).toLocaleString()}.</div>
-            <div>
-                <button className={b('time', {plusTwo, dnf})} onClick={openSolve} style={{display: "flex", gap: "1rem"}}>
-                    <span>{time}</span>
-                    <span><small>ao5: </small>{ao5}</span>
-                    <span><small>ao12: </small>{ao12}</span>
-                    {bluetoothIcon}
-                </button>
+            <div className={b('time', {plusTwo, dnf, pb})}>
+                <span>{time}</span>
+                {bluetoothIcon}
             </div>
-
+            <div className={b('time', {plusTwo, dnf, pb})}>
+                <span>{ao5}</span>
+            </div>
+            <div className={b('time', {plusTwo, dnf, pb})}>
+                <span>{ao5}</span>
+            </div>
             <div className={b('actions')}>{actions}</div>
         </div>
     );
