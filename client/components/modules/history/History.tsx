@@ -11,6 +11,7 @@ import {deleteSolveDb} from '../../../db/solves/update';
 import {useSolveDb} from '../../../util/hooks/useSolveDb';
 import {Solve} from '../../../@types/generated/graphql';
 import {useGeneral} from '../../../util/hooks/useGeneral';
+import {getAverage, getAverageOf} from "../../../db/solves/stats/solves/average/average";
 
 interface Props {
 	solves?: Solve[];
@@ -35,7 +36,12 @@ export default function History(props: Props) {
 	}
 
 	function renderSolveRow(index: number) {
+
 		let solveIndex = index;
+
+		const ao5 = getAverageOf(solves, solveIndex, 5)
+		const ao12 = getAverageOf(solves, solveIndex, 12)
+
 		if (reverseOrder) {
 			solveIndex = solves.length - index - 1;
 		}
@@ -46,7 +52,8 @@ export default function History(props: Props) {
 		}
 
 		const solve = solves[solveIndex];
-		return <HistorySolveRow disabled={disabled} key={solve.id} index={displayIndex} solve={solve} />;
+
+		return <HistorySolveRow disabled={disabled} key={solve.id} index={displayIndex} solve={solve} ao5={ao5} ao12={ao12} />;
 	}
 
 	function getLastSolve() {
@@ -70,8 +77,8 @@ export default function History(props: Props) {
 		if (isHotKeysEnabled()) togglePlusTwoSolveDb(getLastSolve());
 	}
 
-	function deleteLastSolve() {
-		if (isHotKeysEnabled()) deleteSolveDb(getLastSolve());
+	async function deleteLastSolve() {
+		if (isHotKeysEnabled()) await deleteSolveDb(getLastSolve());
 	}
 
 	if (!solves.length) {

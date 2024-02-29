@@ -14,90 +14,96 @@ import {Solve} from '../../../../../server/schemas/Solve.schema';
 const b = block('history-solve-row');
 
 interface Props {
-	index: number;
-	disabled?: boolean;
-	solve: Solve;
+    index: number;
+    disabled?: boolean;
+    solve: Solve;
+    ao5?: number;
+    ao12?: number;
 }
 
 export default function HistorySolveRow(props: Props) {
-	const {index, solve, disabled} = props;
+    const {index, solve, disabled} = props;
 
-	const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-	function deleteSolve() {
-		deleteSolveDb(solve);
-	}
+    function deleteSolve() {
+        deleteSolveDb(solve);
+    }
 
-	function plusTwoSolve() {
-		togglePlusTwoSolveDb(solve);
-	}
+    function plusTwoSolve() {
+        togglePlusTwoSolveDb(solve);
+    }
 
-	function dnfSolve() {
-		toggleDnfSolveDb(solve);
-	}
+    function dnfSolve() {
+        toggleDnfSolveDb(solve);
+    }
 
-	function openSolve() {
-		dispatch(openModal(<SolveInfo solve={solve} solveId={solve.id} disabled={disabled} />));
-	}
+    function openSolve() {
+        dispatch(openModal(<SolveInfo solve={solve} solveId={solve.id} disabled={disabled}/>));
+    }
 
-	const solveTime = solve.time;
-	const dnf = solve.dnf;
-	const plusTwo = solve.plus_two;
-	const id = solve.id;
-	const isSmartCube = solve.is_smart_cube;
+    const solveTime = solve.time;
+    const dnf = solve.dnf;
+    const plusTwo = solve.plus_two;
+    const id = solve.id;
+    const isSmartCube = solve.is_smart_cube;
 
-	const time = getTimeString(solveTime);
+    const time = getTimeString(solveTime);
+    const ao5 = getTimeString(props.ao5);
+    const ao12 = getTimeString(props.ao12);
 
-	let bluetoothIcon = null;
-	if (isSmartCube) {
-		bluetoothIcon = <Bluetooth />;
-	}
+    let bluetoothIcon = null;
+    if (isSmartCube) {
+        bluetoothIcon = <Bluetooth/>;
+    }
 
-	let actions = null;
-	if (!disabled) {
-		actions = (
-			<>
-				<Button
-					title="Plus two solve"
-					className={b('action', {active: plusTwo})}
-					text="+2"
-					flat
-					white
-					warning={plusTwo}
-					onClick={plusTwoSolve}
-				/>
-				<Button
-					title="DNF solve"
-					className={b('action', {active: dnf})}
-					flat
-					white
-					danger={dnf}
-					text="DNF"
-					onClick={dnfSolve}
-				/>
-				<Button
-					title="Delete solve"
-					className={b('action', {active: true})}
-					icon={<X />}
-					flat
-					white
-					onClick={deleteSolve}
-				/>
-			</>
-		);
-	}
+    let actions = null;
+    if (!disabled) {
+        actions = (
+            <>
+                <Button
+                    title="Plus two solve"
+                    className={b('action', {active: plusTwo})}
+                    text="+2"
+                    flat
+                    white
+                    warning={plusTwo}
+                    onClick={plusTwoSolve}
+                />
+                <Button
+                    title="DNF solve"
+                    className={b('action', {active: dnf})}
+                    flat
+                    white
+                    danger={dnf}
+                    text="DNF"
+                    onClick={dnfSolve}
+                />
+                <Button
+                    title="Delete solve"
+                    className={b('action', {active: true})}
+                    icon={<X/>}
+                    flat
+                    white
+                    onClick={deleteSolve}
+                />
+            </>
+        );
+    }
 
-	return (
-		<div className={b()} key={id}>
-			<div className={b('index')}>{(index + 1).toLocaleString()}.</div>
-			<div>
-				<button className={b('time', {plusTwo, dnf})} onClick={openSolve}>
-					<span>{time}</span>
-					{bluetoothIcon}
-				</button>
-			</div>
+    return (
+        <div className={b()} key={id}>
+            <div className={b('index')}>{(index + 1).toLocaleString()}.</div>
+            <div>
+                <button className={b('time', {plusTwo, dnf})} onClick={openSolve} style={{display: "flex", gap: "1rem"}}>
+                    <span>{time}</span>
+                    <span><small>ao5: </small>{ao5}</span>
+                    <span><small>ao12: </small>{ao12}</span>
+                    {bluetoothIcon}
+                </button>
+            </div>
 
-			<div className={b('actions')}>{actions}</div>
-		</div>
-	);
+            <div className={b('actions')}>{actions}</div>
+        </div>
+    );
 }
